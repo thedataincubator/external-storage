@@ -110,15 +110,27 @@ func (c *cloud) findNode(nodeName string) (int, error) {
 }
 
 func (c *cloud) getVolumeByName(volumeName string) (string, error) {
-	volumes, _, err := c.client.Storage.ListVolumes(c.ctx, nil)
-	if err != nil {
-		return "", err
-	}
-	for _, volume := range volumes {
-		if volume.Name == volumeName {
-			return volume.ID, nil
+	opt := &godo.ListVolumeParams{ListOptions: &godo.ListOptions{}}
+	// get all volumes 
+	for {
+		volumes, resp, err := c.client.Storage.ListVolumes(c.ctx, opt)
+		if err != nil {
+			return "", err
 		}
-	}
+		for _, volume := range volumes {
+			if volume.Name == volumeName {
+				return volume.ID, nil
+			}
+		}
+		if resp.Links == nil || resp.Links.IsLastPage(){
+			break
+		}
+		page, err := resp.Links.CurrentPage()
+		if err != nil {
+			return "", err
+		}
+		opt.ListOptions.Page = page + 1
+    }
 	return "", fmt.Errorf("Error: No volume found with volumeName: %s", volumeName)
 }
 

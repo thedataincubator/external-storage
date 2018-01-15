@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-REGISTRY = quay.io/external_storage
+REGISTRY = quay.io/zachglassman
 IMAGE_FLEXPLUGIN = $(REGISTRY)/digitalocean-flexplugin
 IMAGE_PROVISONER = $(REGISTRY)/digitalocean-provisioner
 
