@@ -16,7 +16,7 @@ REGISTRY = quay.io/zachglassman
 IMAGE_FLEXPLUGIN = $(REGISTRY)/digitalocean-flexplugin
 IMAGE_PROVISONER = $(REGISTRY)/digitalocean-provisioner
 
-VERSION := latest
+VERSION := 0.0.1
 
 all build:
 	GOOS=linux go install -v ./cmd/digitalocean-flexplugin
